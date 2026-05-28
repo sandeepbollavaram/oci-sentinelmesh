@@ -116,6 +116,13 @@ Run the dashboard:
 npm run dev
 ```
 
+Dashboard npm commands must be run from the dashboard folder because `package.json` lives inside `apps/dashboard`. Running `npm run build` from the repository root will fail.
+
+```powershell
+cd apps\dashboard
+npm run build
+```
+
 Configure the API base URL with:
 
 ```text
