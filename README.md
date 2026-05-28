@@ -1,5 +1,7 @@
 # OCI-SentinelMesh
 
+[![CI](https://github.com/sandeepbollavaram/oci-sentinelmesh/actions/workflows/ci.yml/badge.svg)](https://github.com/sandeepbollavaram/oci-sentinelmesh/actions/workflows/ci.yml)
+
 OCI-SentinelMesh is an autonomous cloud health and compliance monitoring agent for Oracle Cloud Infrastructure. The project is planned to observe OCI resource health, detect unusual or non-compliant states, match findings to compliance rules, and produce explainable alerts for operators while keeping remediation controlled and opt-in.
 
 ## Planned Architecture
