@@ -67,6 +67,30 @@ Run tests:
 pytest
 ```
 
+## v0.4 Compliance Severity Rule Engine
+
+The v0.4 scanner uses a small severity-based rule engine with stable rule IDs, categories, and richer alert output. Alerts now include `alert_id`, `rule_id`, `category`, `resource_id`, `resource_type`, `severity`, `title`, `description`, `recommendation`, and `timestamp`.
+
+Rules added:
+
+- `STORAGE_PUBLIC_ACCESS`
+- `COMPUTE_HIGH_CPU`
+- `IAM_BROAD_ADMIN`
+- `NETWORK_PUBLIC_SSH`
+- `NETWORK_PUBLIC_DATABASE_PORT`
+- `STORAGE_UNENCRYPTED_BUCKET`
+- `COMPUTE_MISSING_TAGS`
+- `IAM_POLICY_CHANGE_AFTER_HOURS`
+
+Severity model:
+
+- `LOW`
+- `MEDIUM`
+- `HIGH`
+- `CRITICAL`
+
+Safety note: v0.4 is alert-only. It uses deterministic local mock telemetry, does not call OCI APIs, does not require credentials, does not create resources, and does not perform remediation.
+
 ## Planned Tech Stack
 
 - Python
