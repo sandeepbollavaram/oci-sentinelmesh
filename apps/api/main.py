@@ -18,7 +18,7 @@ from oci_sentinelmesh_compliance import scan_telemetry  # noqa: E402
 app = FastAPI(
     title="OCI-SentinelMesh API",
     description="Local mock-first API for OCI telemetry and compliance alerts.",
-    version="0.3.0",
+    version="0.4.0",
 )
 
 
@@ -41,7 +41,7 @@ def telemetry() -> list[dict[str, Any]]:
 
 
 @app.get("/alerts")
-def alerts() -> list[dict[str, str]]:
+def alerts() -> list[dict[str, Any]]:
     """Return alerts from scanning local mock telemetry."""
 
     items = collect_mock_telemetry()

@@ -25,7 +25,7 @@ def test_get_telemetry_returns_list() -> None:
     assert response.status_code == 200
     body = response.json()
     assert isinstance(body, list)
-    assert len(body) == 8
+    assert len(body) == 12
     assert {"resource_id", "resource_type", "name", "compartment_id", "region", "timestamp", "metadata"} <= set(body[0])
 
 
@@ -35,9 +35,21 @@ def test_get_alerts_returns_expected_alert_list() -> None:
     assert response.status_code == 200
     body = response.json()
     assert isinstance(body, list)
-    assert len(body) == 4
-    assert {alert["severity"] for alert in body} == {"MEDIUM", "HIGH", "CRITICAL"}
-    assert "public-ssh-ingress:ocid1.securityrule.oc1.iad.mockpublicssh" in {
+    assert len(body) == 8
+    assert {alert["severity"] for alert in body} == {"LOW", "MEDIUM", "HIGH", "CRITICAL"}
+    assert {
+        "alert_id",
+        "rule_id",
+        "category",
+        "resource_id",
+        "resource_type",
+        "severity",
+        "title",
+        "description",
+        "recommendation",
+        "timestamp",
+    } <= set(body[0])
+    assert "NETWORK_PUBLIC_SSH:ocid1.securityrule.oc1.iad.mockpublicssh" in {
         alert["alert_id"] for alert in body
     }
 
@@ -48,6 +60,6 @@ def test_post_scan_returns_counts() -> None:
     assert response.status_code == 200
     body = response.json()
     assert body["mode"] == "mock"
-    assert body["telemetry_count"] == 8
-    assert body["alert_count"] == 4
-    assert len(body["alerts"]) == 4
+    assert body["telemetry_count"] == 12
+    assert body["alert_count"] == 8
+    assert len(body["alerts"]) == 8

@@ -13,6 +13,7 @@ from .models import ResourceType, TelemetryItem
 MOCK_COMPARTMENT_ID = "ocid1.compartment.oc1..mock"
 MOCK_REGION = "us-ashburn-1"
 MOCK_TIMESTAMP = datetime(2026, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
+MOCK_AFTER_HOURS_TIMESTAMP = datetime(2026, 1, 1, 22, 30, 0, tzinfo=timezone.utc)
 
 
 def collect_mock_telemetry() -> list[TelemetryItem]:
@@ -30,6 +31,10 @@ def collect_mock_telemetry() -> list[TelemetryItem]:
                 "lifecycle_state": "RUNNING",
                 "shape": "VM.Standard.E4.Flex",
                 "cpu_percent": 24.5,
+                "freeform_tags": {
+                    "environment": "dev",
+                    "owner": "platform",
+                },
             },
         ),
         TelemetryItem(
@@ -43,6 +48,26 @@ def collect_mock_telemetry() -> list[TelemetryItem]:
                 "lifecycle_state": "RUNNING",
                 "shape": "VM.Standard.E4.Flex",
                 "cpu_percent": 91.2,
+                "freeform_tags": {
+                    "environment": "dev",
+                    "owner": "platform",
+                },
+            },
+        ),
+        TelemetryItem(
+            resource_id="ocid1.instance.oc1.iad.mockmissingtags",
+            resource_type=ResourceType.COMPUTE_INSTANCE,
+            name="missing-tags-compute-instance",
+            compartment_id=MOCK_COMPARTMENT_ID,
+            region=MOCK_REGION,
+            timestamp=MOCK_TIMESTAMP,
+            metadata={
+                "lifecycle_state": "RUNNING",
+                "shape": "VM.Standard.E4.Flex",
+                "cpu_percent": 16.8,
+                "freeform_tags": {
+                    "environment": "dev",
+                },
             },
         ),
         TelemetryItem(
@@ -56,6 +81,7 @@ def collect_mock_telemetry() -> list[TelemetryItem]:
                 "namespace": "mocknamespace",
                 "is_public": False,
                 "storage_tier": "Standard",
+                "encryption_enabled": True,
             },
         ),
         TelemetryItem(
@@ -69,6 +95,21 @@ def collect_mock_telemetry() -> list[TelemetryItem]:
                 "namespace": "mocknamespace",
                 "is_public": True,
                 "storage_tier": "Standard",
+                "encryption_enabled": True,
+            },
+        ),
+        TelemetryItem(
+            resource_id="ocid1.bucket.oc1.iad.mockunencryptedbucket",
+            resource_type=ResourceType.OBJECT_STORAGE_BUCKET,
+            name="unencrypted-backup-bucket",
+            compartment_id=MOCK_COMPARTMENT_ID,
+            region=MOCK_REGION,
+            timestamp=MOCK_TIMESTAMP,
+            metadata={
+                "namespace": "mocknamespace",
+                "is_public": False,
+                "storage_tier": "Standard",
+                "encryption_enabled": False,
             },
         ),
         TelemetryItem(
@@ -98,6 +139,19 @@ def collect_mock_telemetry() -> list[TelemetryItem]:
             },
         ),
         TelemetryItem(
+            resource_id="ocid1.audit.oc1.iad.mockafterhourspolicy",
+            resource_type=ResourceType.IAM_POLICY_CHANGE,
+            name="after-hours-iam-policy-change",
+            compartment_id=MOCK_COMPARTMENT_ID,
+            region=MOCK_REGION,
+            timestamp=MOCK_AFTER_HOURS_TIMESTAMP,
+            metadata={
+                "actor": "mock-security-admin",
+                "change_type": "UPDATE",
+                "policy_statement": "Allow group Auditors to read audit-events in tenancy",
+            },
+        ),
+        TelemetryItem(
             resource_id="ocid1.securityrule.oc1.iad.mocksafenetworkrule",
             resource_type=ResourceType.NETWORK_SECURITY_RULE,
             name="safe-network-rule",
@@ -124,6 +178,21 @@ def collect_mock_telemetry() -> list[TelemetryItem]:
                 "protocol": "tcp",
                 "source": "0.0.0.0/0",
                 "destination_port": 22,
+                "action": "ALLOW",
+            },
+        ),
+        TelemetryItem(
+            resource_id="ocid1.securityrule.oc1.iad.mockpublicdb",
+            resource_type=ResourceType.NETWORK_SECURITY_RULE,
+            name="open-public-database-rule",
+            compartment_id=MOCK_COMPARTMENT_ID,
+            region=MOCK_REGION,
+            timestamp=MOCK_TIMESTAMP,
+            metadata={
+                "direction": "INGRESS",
+                "protocol": "tcp",
+                "source": "0.0.0.0/0",
+                "destination_port": 1521,
                 "action": "ALLOW",
             },
         ),
