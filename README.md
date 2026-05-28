@@ -91,6 +91,37 @@ Severity model:
 
 Safety note: v0.4 is alert-only. It uses deterministic local mock telemetry, does not call OCI APIs, does not require credentials, does not create resources, and does not perform remediation.
 
+## v0.5 Dashboard
+
+The v0.5 dashboard is a React + TypeScript Vite app that reads from the existing mock FastAPI backend. It shows system status, scan summary, severity totals, alerts, and telemetry in a local-first enterprise dashboard UI.
+
+Run the backend:
+
+```powershell
+uvicorn apps.api.main:app --reload
+```
+
+Install frontend dependencies:
+
+```powershell
+cd apps\dashboard
+npm install
+```
+
+Run the dashboard:
+
+```powershell
+npm run dev
+```
+
+Configure the API base URL with:
+
+```text
+VITE_API_BASE_URL=http://127.0.0.1:8000
+```
+
+Safety note: v0.5 remains mock/local-first. The dashboard calls only the local FastAPI endpoints and does not call OCI APIs, require credentials, create resources, or perform remediation.
+
 ## Planned Tech Stack
 
 - Python

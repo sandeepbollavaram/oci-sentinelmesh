@@ -7,6 +7,7 @@ from typing import Any
 import sys
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(ROOT / "packages" / "collector"))
@@ -19,6 +20,17 @@ app = FastAPI(
     title="OCI-SentinelMesh API",
     description="Local mock-first API for OCI telemetry and compliance alerts.",
     version="0.4.0",
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+    ],
+    allow_credentials=False,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
 )
 
 
