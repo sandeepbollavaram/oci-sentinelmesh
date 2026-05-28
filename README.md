@@ -38,6 +38,35 @@ python -m unittest discover -s tests
 
 The mock scan currently emits JSON alerts for public buckets, high compute CPU, broad IAM admin policy changes, and public SSH ingress.
 
+## v0.3 FastAPI Backend
+
+The v0.3 backend exposes the same local mock collector and compliance scanner through REST APIs. It remains mock-only and does not connect to OCI.
+
+Install dependencies:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+Run the API:
+
+```powershell
+uvicorn apps.api.main:app --reload
+```
+
+Endpoints:
+
+- `GET /health` returns service status.
+- `GET /telemetry` returns all mock telemetry items.
+- `GET /alerts` returns compliance alerts from mock telemetry.
+- `POST /scan` runs a full mock scan and returns telemetry and alert counts with alerts.
+
+Run tests:
+
+```powershell
+pytest
+```
+
 ## Planned Tech Stack
 
 - Python
