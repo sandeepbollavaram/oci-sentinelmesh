@@ -18,7 +18,25 @@ This repository starts mock/local-first. It must not contain real Oracle credent
 
 ## Current Status
 
-Scaffold phase. The repository currently contains project structure, initial documentation, placeholder module READMEs, and local-safe configuration examples only.
+v0.2 local mock scanner foundation. The repository currently contains project structure, initial documentation, local-safe configuration examples, a deterministic mock telemetry collector, and a simple compliance scanner.
+
+## v0.2 Local Mock Scan
+
+The v0.2 workflow runs entirely on local mock data. It does not call OCI APIs, require Oracle credentials, create cloud resources, or perform remediation.
+
+Run the mock scan:
+
+```powershell
+python scripts\mock_scan.py
+```
+
+Run tests:
+
+```powershell
+python -m unittest discover -s tests
+```
+
+The mock scan currently emits JSON alerts for public buckets, high compute CPU, broad IAM admin policy changes, and public SSH ingress.
 
 ## Planned Tech Stack
 
