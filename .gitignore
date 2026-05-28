@@ -216,3 +216,51 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.npm/
+.pnpm-store/
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+
+# Frontend and backend build outputs
+.next/
+.nuxt/
+.svelte-kit/
+out/
+coverage/
+*.tsbuildinfo
+
+# Environment files and local overrides
+.env.*
+!.env.example
+*.local
+
+# Oracle wallets and local OCI config
+wallet*/
+Wallet*/
+*.sso
+*.p12
+*.jks
+tnsnames.ora
+sqlnet.ora
+ojdbc.properties
+oci_config
+.oci/
+
+# Local secrets and private keys
+secrets/
+local-secrets/
+*.pem
+*.key
+*.crt
+*.p8
+id_rsa
+id_rsa.pub
