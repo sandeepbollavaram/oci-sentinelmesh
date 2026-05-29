@@ -171,6 +171,42 @@ New API endpoints:
 
 Safety note: v0.6 uses local SQLite only. Oracle Database is not required yet, no real OCI APIs are called, no credentials are needed, no cloud resources are created, and no auto-remediation is performed.
 
+## v0.7 Docker Compose Developer Setup
+
+The v0.7 developer setup runs the FastAPI API and React dashboard together with Docker Compose. Prerequisite: Docker Desktop.
+
+Start the local stack:
+
+```powershell
+docker compose up --build
+```
+
+Local URLs:
+
+- API health: `http://127.0.0.1:8000/health`
+- API docs: `http://127.0.0.1:8000/docs`
+- Dashboard: `http://127.0.0.1:5173`
+
+SQLite scan history is persisted locally at:
+
+```text
+./data/oci-sentinelmesh.db
+```
+
+Stop the stack:
+
+```powershell
+docker compose down
+```
+
+Reset local scan history only if you intentionally want to remove local data:
+
+```powershell
+Remove-Item -Recurse -Force .\data
+```
+
+Safety note: v0.7 remains mock/local-only. Docker Compose does not call real OCI APIs, does not require credentials, does not create cloud resources, and does not perform auto-remediation.
+
 ## Planned Tech Stack
 
 - Python
