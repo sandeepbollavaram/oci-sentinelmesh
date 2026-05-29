@@ -131,6 +131,46 @@ VITE_API_BASE_URL=http://127.0.0.1:8000
 
 Safety note: v0.5 remains mock/local-first. The dashboard calls only the local FastAPI endpoints and does not call OCI APIs, require credentials, create resources, or perform remediation.
 
+## v0.6 SQLite Persistence and Audit Log
+
+The v0.6 backend can persist local mock scan history to SQLite. When enabled, each `POST /scan` stores the scan run, telemetry snapshot, generated alerts, and an audit log entry.
+
+Environment variables:
+
+```text
+OCI_SENTINEL_DB_PATH=./data/oci-sentinelmesh.db
+OCI_SENTINEL_PERSISTENCE_ENABLED=true
+```
+
+Run the API with persistence:
+
+```powershell
+$env:OCI_SENTINEL_PERSISTENCE_ENABLED="true"
+$env:OCI_SENTINEL_DB_PATH="./data/oci-sentinelmesh.db"
+uvicorn apps.api.main:app --reload
+```
+
+Run a persisted scan:
+
+```powershell
+Invoke-RestMethod -Method Post -Uri http://127.0.0.1:8000/scan
+```
+
+Inspect scan history:
+
+```powershell
+Invoke-RestMethod -Uri http://127.0.0.1:8000/scan-runs
+Invoke-RestMethod -Uri http://127.0.0.1:8000/audit-log
+```
+
+New API endpoints:
+
+- `GET /scan-runs` returns recent persisted scan runs.
+- `GET /scan-runs/{scan_id}` returns one scan run with telemetry events and alerts.
+- `GET /audit-log` returns recent audit log entries.
+
+Safety note: v0.6 uses local SQLite only. Oracle Database is not required yet, no real OCI APIs are called, no credentials are needed, no cloud resources are created, and no auto-remediation is performed.
+
 ## Planned Tech Stack
 
 - Python
