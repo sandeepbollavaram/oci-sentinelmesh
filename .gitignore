@@ -264,3 +264,9 @@ local-secrets/
 *.p8
 id_rsa
 id_rsa.pub
+
+# Local SQLite persistence
+data/
+*.db
+*.sqlite
+*.sqlite3
