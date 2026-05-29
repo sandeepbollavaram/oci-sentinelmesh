@@ -49,3 +49,14 @@ jobs:
 
       - name: Build dashboard
         run: npm run build
+
+  docker-compose:
+    name: Docker Compose config
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate Docker Compose config
+        run: docker compose config

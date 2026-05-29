@@ -1,0 +1,23 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    environment:
+      OCI_SENTINEL_PERSISTENCE_ENABLED: "true"
+      OCI_SENTINEL_DB_PATH: /app/data/oci-sentinelmesh.db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+
+  dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    depends_on:
+      - api
+    environment:
+      VITE_API_BASE_URL: http://127.0.0.1:8000
+    ports:
+      - "5173:5173"
