@@ -13,8 +13,8 @@ services:
 
   dashboard:
     build:
-      context: .
-      dockerfile: apps/dashboard/Dockerfile
+      context: ./apps/dashboard
+      dockerfile: Dockerfile
     depends_on:
       - api
     environment:

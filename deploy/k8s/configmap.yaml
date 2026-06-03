@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oci-sentinelmesh-config
+  namespace: oci-sentinelmesh
+data:
+  OCI_SENTINEL_PERSISTENCE_ENABLED: "true"
+  OCI_SENTINEL_DB_PATH: /app/data/oci-sentinelmesh.db
+  VITE_API_BASE_URL: http://127.0.0.1:8000

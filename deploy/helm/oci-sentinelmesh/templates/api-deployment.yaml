@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "oci-sentinelmesh.apiName" . }}
+  namespace: {{ include "oci-sentinelmesh.namespace" . }}
+  labels:
+    app: {{ include "oci-sentinelmesh.apiName" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "oci-sentinelmesh.apiName" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "oci-sentinelmesh.apiName" . }}
+    spec:
+      containers:
+        - name: api
+          image: "{{ .Values.api.image.repository }}:{{ .Values.api.image.tag }}"
+          imagePullPolicy: {{ .Values.api.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.api.service.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "oci-sentinelmesh.name" . }}-config
+          volumeMounts:
+            - name: sqlite-data
+              mountPath: /app/data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: sqlite-data
+          emptyDir: {}

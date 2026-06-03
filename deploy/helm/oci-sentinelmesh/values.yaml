@@ -1,0 +1,24 @@
+global:
+  namespace: oci-sentinelmesh
+
+api:
+  image:
+    repository: oci-sentinelmesh-api
+    tag: local
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8000
+  persistence:
+    enabled: true
+    dbPath: /app/data/oci-sentinelmesh.db
+
+dashboard:
+  image:
+    repository: oci-sentinelmesh-dashboard
+    tag: local
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 5173
+  apiBaseUrl: http://127.0.0.1:8000

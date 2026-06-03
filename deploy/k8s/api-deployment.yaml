@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: oci-sentinelmesh-api
+  namespace: oci-sentinelmesh
+  labels:
+    app: oci-sentinelmesh-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: oci-sentinelmesh-api
+  template:
+    metadata:
+      labels:
+        app: oci-sentinelmesh-api
+    spec:
+      containers:
+        - name: api
+          image: oci-sentinelmesh-api:local
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: oci-sentinelmesh-config
+          volumeMounts:
+            - name: sqlite-data
+              mountPath: /app/data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 15
+            periodSeconds: 20
+      volumes:
+        - name: sqlite-data
+          emptyDir: {}

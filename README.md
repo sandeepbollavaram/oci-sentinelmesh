@@ -207,6 +207,56 @@ Remove-Item -Recurse -Force .\data
 
 Safety note: v0.7 remains mock/local-only. Docker Compose does not call real OCI APIs, does not require credentials, does not create cloud resources, and does not perform auto-remediation.
 
+## v0.8 Kubernetes and Helm Deployment
+
+The v0.8 deployment scaffolding supports local Kubernetes clusters such as Docker Desktop Kubernetes, Minikube, or Kind. The same local/mock-first containers can also be adapted for a future OKE-style environment.
+
+Build local Docker images:
+
+```powershell
+docker build -f apps/api/Dockerfile -t oci-sentinelmesh-api:local .
+docker build -f apps/dashboard/Dockerfile -t oci-sentinelmesh-dashboard:local apps/dashboard
+```
+
+Apply plain Kubernetes manifests:
+
+```powershell
+kubectl apply -k deploy/k8s
+```
+
+Install with Helm:
+
+```powershell
+helm install oci-sentinelmesh deploy/helm/oci-sentinelmesh
+```
+
+Port forward the API:
+
+```powershell
+kubectl -n oci-sentinelmesh port-forward svc/oci-sentinelmesh-api 8000:8000
+```
+
+Port forward the dashboard:
+
+```powershell
+kubectl -n oci-sentinelmesh port-forward svc/oci-sentinelmesh-dashboard 5173:5173
+```
+
+Local URLs:
+
+- API health: `http://127.0.0.1:8000/health`
+- API docs: `http://127.0.0.1:8000/docs`
+- Dashboard: `http://127.0.0.1:5173`
+
+Uninstall:
+
+```powershell
+helm uninstall oci-sentinelmesh -n oci-sentinelmesh
+kubectl delete namespace oci-sentinelmesh
+```
+
+Safety note: v0.8 remains local/mock-only. It does not call real OCI APIs, does not require credentials, does not create cloud resources, and does not perform auto-remediation.
+
 ## Planned Tech Stack
 
 - Python

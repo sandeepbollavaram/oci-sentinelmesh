@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "oci-sentinelmesh.dashboardName" . }}
+  namespace: {{ include "oci-sentinelmesh.namespace" . }}
+  labels:
+    app: {{ include "oci-sentinelmesh.dashboardName" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "oci-sentinelmesh.dashboardName" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "oci-sentinelmesh.dashboardName" . }}
+    spec:
+      containers:
+        - name: dashboard
+          image: "{{ .Values.dashboard.image.repository }}:{{ .Values.dashboard.image.tag }}"
+          imagePullPolicy: {{ .Values.dashboard.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.dashboard.service.port }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "oci-sentinelmesh.name" . }}-config
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10

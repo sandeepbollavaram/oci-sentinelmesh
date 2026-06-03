@@ -1,0 +1,6 @@
+apiVersion: v2
+name: oci-sentinelmesh
+description: Local mock-first OCI-SentinelMesh deployment chart
+type: application
+version: 0.8.0
+appVersion: "0.8.0"

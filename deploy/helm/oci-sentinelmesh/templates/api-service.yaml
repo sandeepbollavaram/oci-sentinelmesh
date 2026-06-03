@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "oci-sentinelmesh.apiName" . }}
+  namespace: {{ include "oci-sentinelmesh.namespace" . }}
+  labels:
+    app: {{ include "oci-sentinelmesh.apiName" . }}
+spec:
+  type: {{ .Values.api.service.type }}
+  selector:
+    app: {{ include "oci-sentinelmesh.apiName" . }}
+  ports:
+    - name: http
+      port: {{ .Values.api.service.port }}
+      targetPort: http

@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "oci-sentinelmesh.name" . }}-config
+  namespace: {{ include "oci-sentinelmesh.namespace" . }}
+data:
+  OCI_SENTINEL_PERSISTENCE_ENABLED: {{ ternary "true" "false" .Values.api.persistence.enabled | quote }}
+  OCI_SENTINEL_DB_PATH: {{ .Values.api.persistence.dbPath | quote }}
+  VITE_API_BASE_URL: {{ .Values.dashboard.apiBaseUrl | quote }}

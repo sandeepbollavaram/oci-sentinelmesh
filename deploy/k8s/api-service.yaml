@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oci-sentinelmesh-api
+  namespace: oci-sentinelmesh
+  labels:
+    app: oci-sentinelmesh-api
+spec:
+  type: ClusterIP
+  selector:
+    app: oci-sentinelmesh-api
+  ports:
+    - name: http
+      port: 8000
+      targetPort: http
