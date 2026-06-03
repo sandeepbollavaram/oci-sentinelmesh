@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: oci-sentinelmesh-dashboard
+  namespace: oci-sentinelmesh
+  labels:
+    app: oci-sentinelmesh-dashboard
+spec:
+  type: ClusterIP
+  selector:
+    app: oci-sentinelmesh-dashboard
+  ports:
+    - name: http
+      port: 5173
+      targetPort: http

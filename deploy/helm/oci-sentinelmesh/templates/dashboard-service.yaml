@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "oci-sentinelmesh.dashboardName" . }}
+  namespace: {{ include "oci-sentinelmesh.namespace" . }}
+  labels:
+    app: {{ include "oci-sentinelmesh.dashboardName" . }}
+spec:
+  type: {{ .Values.dashboard.service.type }}
+  selector:
+    app: {{ include "oci-sentinelmesh.dashboardName" . }}
+  ports:
+    - name: http
+      port: {{ .Values.dashboard.service.port }}
+      targetPort: http
